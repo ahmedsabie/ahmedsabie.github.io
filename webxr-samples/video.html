@@ -245,9 +245,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
         equirectlayer = xrGLFactory.createEquirectLayer("texture", {
           space: refSpace,
-          viewPixelWidth: video.videoWidth,
-          viewPixelHeight: ((videoHeight == -1) ? video.videoHeight / 2 : videoHeight / 2),
-          layout: "mono"
+          viewPixelWidth: 500,//video.videoWidth,
+          viewPixelHeight: 500,//((videoHeight == -1) ? video.videoHeight / 2 : videoHeight / 2),
+          layout: "stereo-top-bottom"
         });
 //        equirectlayer.centralHorizontalAngle = Math.PI;
 //        equirectlayer.upperVerticalAngle = Math.PI / 2.0;
