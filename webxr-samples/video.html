@@ -1,4 +1,3 @@
-
 <!doctype html>
 <!--
 Copyright 2018 The Immersive Web Community Group
@@ -46,8 +45,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       </p>
       <label>Choose a video</label>
       <select id="videoselect">
-        <option value="media/video/vid_60fps.mp4">2160x2160 60fps</option>
-        <option value="media/video/vid_30fps.mp4">3840x2160 30fps</option>
+        <option value="media/video/Henry_video_h265_2160x2160_60fps.mp4">2160x2160 60fps</option>
+        <option value="media/video/Henry_video_h265_3840x2160_60fps.mp4">3840x2160 60fps</option>
+        <option value="media/video/Henry_video_h265_3840x3840_60fps.mp4">3840x3840 60fps</option>
+        <option value="media/video/Henry_video_h265_2880x2880_60fps.mp4">2880x2880 60fps</option>
+        <option value="media/video/Henry_video_h265_1920x1920_60fps.mp4">1920x1920 60fps</option>
+        <option value="media/video/Henry_video_h265_1920x1920_60fps.mp4">3840x3840 30fps</option>
       </select>
       <input type="checkbox" id="update_every_frame">Update every frm</input>
       <button id="xr-button" disabled>XR not found</button>
@@ -161,6 +164,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     function videoSelect() {
       let s = document.getElementById("videoselect");
       video.src = s.options[s.selectedIndex].value;
+      // HACK
+      if (s.selectedIndex == 1) 
+        videoHeight = 2160;
+      else
+        videoHeight = -1;
     }
 
     videoSelect();
@@ -243,7 +251,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
         proj_layer = xrGLFactory.createProjectionLayer("texture", { space: refSpace, stencil: false });
 
-        equirectlayer = xrGLFactory.createQuadLayer("texture", {
+        equirectlayer = xrGLFactory.createEquirectLayer("texture", {
           space: refSpace,
           viewPixelWidth: video.videoWidth,
           viewPixelHeight: ((videoHeight == -1) ? video.videoHeight / 2 : videoHeight / 2),
@@ -252,7 +260,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //        equirectlayer.centralHorizontalAngle = Math.PI;
 //        equirectlayer.upperVerticalAngle = Math.PI / 2.0;
 //        equirectlayer.lowerVerticalAngle = -Math.PI / 2.0;
-        //equirectlayer.radius = 0;
+        equirectlayer.radius = 0;
 
         backgroundTexture = loadTexture(gl, 'media/textures/mono_equirect_test.png', (w, h) => {
           equirectlayerbackdrop = xrGLFactory.createEquirectLayer("texture", {
