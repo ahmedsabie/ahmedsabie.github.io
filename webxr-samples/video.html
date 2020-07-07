@@ -243,16 +243,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
         proj_layer = xrGLFactory.createProjectionLayer("texture", { space: refSpace, stencil: false });
 
-        equirectlayer = xrGLFactory.createEquirectLayer("texture", {
+        equirectlayer = xrGLFactory.createQuadLayer("texture", {
           space: refSpace,
-          viewPixelWidth: 500,//video.videoWidth,
-          viewPixelHeight: 500,//((videoHeight == -1) ? video.videoHeight / 2 : videoHeight / 2),
+          viewPixelWidth: video.videoWidth,
+          viewPixelHeight: ((videoHeight == -1) ? video.videoHeight / 2 : videoHeight / 2),
           layout: "stereo-top-bottom"
         });
 //        equirectlayer.centralHorizontalAngle = Math.PI;
 //        equirectlayer.upperVerticalAngle = Math.PI / 2.0;
 //        equirectlayer.lowerVerticalAngle = -Math.PI / 2.0;
-        equirectlayer.radius = 0;
+        //equirectlayer.radius = 0;
 
         backgroundTexture = loadTexture(gl, 'media/textures/mono_equirect_test.png', (w, h) => {
           equirectlayerbackdrop = xrGLFactory.createEquirectLayer("texture", {
