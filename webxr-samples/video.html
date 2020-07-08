@@ -252,6 +252,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         xrRefSpace = refSpace;
 
         proj_layer = xrGLFactory.createProjectionLayer("texture", { space: refSpace, stencil: false });
+session.end();
 
         try {
         equirectlayer = mediaFactory.createEquirectVideoLayer(video, {
