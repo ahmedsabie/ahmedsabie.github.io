@@ -253,10 +253,19 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
         proj_layer = xrGLFactory.createProjectionLayer("texture", { space: refSpace, stencil: false });
 
+        try {
         equirectlayer = mediaFactory.createEquirectVideoLayer(video, {
           space: refSpace,
           layout: "stereo-top-bottom"
         });
+        } catch(e) {
+equirectlayer = mediaFactory.createEquirectVideoLayer(video, {
+           space: refSpace,
+          viewPixelWidth: video.videoWidth,
+          viewPixelHeight: ((videoHeight == -1) ? video.videoHeight : videoHeight / 2),
+           layout: "stereo-top-bottom"
+         });
+}
 //        equirectlayer.centralHorizontalAngle = Math.PI;
 //        equirectlayer.upperVerticalAngle = Math.PI / 2.0;
 //        equirectlayer.lowerVerticalAngle = -Math.PI / 2.0;
