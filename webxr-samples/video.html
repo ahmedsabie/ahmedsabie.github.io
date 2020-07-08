@@ -138,6 +138,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     let xrSession = null;
     let xrRefSpace = null;
     let xrGLFactory = null;
+    let mediaFactory = null;
     let xrFramebuffer = null;
     let xrReadFramebuffer = null;
     let videoTexture = null;
@@ -245,22 +246,21 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //?      videoTexture = gl.createTexture();
 
       xrGLFactory = new XRWebGLBinding(session, gl);
+      mediaFactory = new XRMediaBinding(session);
 
       session.requestReferenceSpace('local').then((refSpace) => {
         xrRefSpace = refSpace;
 
         proj_layer = xrGLFactory.createProjectionLayer("texture", { space: refSpace, stencil: false });
 
-        equirectlayer = xrGLFactory.createEquirectLayer("texture", {
+        equirectlayer = mediaFactory.createEquirectVideoLayer(video, {
           space: refSpace,
-          viewPixelWidth: video.videoWidth,
-          viewPixelHeight: ((videoHeight == -1) ? video.videoHeight : videoHeight / 2),
           layout: "stereo-top-bottom"
         });
 //        equirectlayer.centralHorizontalAngle = Math.PI;
 //        equirectlayer.upperVerticalAngle = Math.PI / 2.0;
 //        equirectlayer.lowerVerticalAngle = -Math.PI / 2.0;
-        equirectlayer.radius = 0;
+        //equirectlayer.radius = 0;
 
         backgroundTexture = loadTexture(gl, 'media/textures/mono_equirect_test.png', (w, h) => {
           equirectlayerbackdrop = xrGLFactory.createEquirectLayer("texture", {
@@ -317,7 +317,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         let arraylength = session.renderState.layers.length;
 //        let fb = gl.createFramebuffer();
 
-        if (updatevideo || update_every_frame.checked) {
+        /*if (updatevideo || update_every_frame.checked) {
           updatevideo = false;
           // draw video
           let glayer = xrGLFactory.getSubImage(equirectlayer, frame);
@@ -325,35 +325,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           gl.bindTexture(gl.TEXTURE_2D, glayer.colorTexture);
           gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, video.videoWidth, video.videoHeight, gl.RGBA, gl.UNSIGNED_BYTE, video);
           
-          /*
-          
-          gl.bindTexture(gl.TEXTURE_2D, videoTexture);
-          gl.texSubImage2D(gl.TEXTURE_2D, 0, gl.RGB, video.videoWidth, video.videoHeight, 0, gl.RGB, gl.UNSIGNED_BYTE, video);
-          gl.generateMipmap(gl.TEXTURE_2D);
-          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-
-          gl.viewport(0, 0, video.videoWidth, video.videoHeight);
-          gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
-          gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, glayer.colorTexture, 0);
-
-          gl.disable(gl.SCISSOR_TEST);
-          stereoUtil.blit(false, videoTexture, 0, 0, 1, 1, video.videoWidth, video.videoHeight);
-
-          gl.bindFramebuffer(gl.FRAMEBUFFER, null);   */
-        }
-                                                        /*
-        if (equirectlayerbackdrop && equirectlayerbackdrop.needsRedraw) {
-          let glayer = xrGLFactory.getSubImage(equirectlayerbackdrop, frame);
-          gl.viewport(0, 0, glayer.textureWidth, glayer.textureHeight);
-          gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
-          gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, glayer.colorTexture, 0);
-
-          gl.disable(gl.SCISSOR_TEST);
-          stereoUtil.blit(false, backgroundTexture, 0, 0, 1, 1, equirectlayerbackdrop.viewPixelWidth, equirectlayerbackdrop.viewPixelHeight);
-          gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-        }                                                 */
-
+        }*/
         let views = [];
         for (let view of pose.views) {
           let viewport = null;
