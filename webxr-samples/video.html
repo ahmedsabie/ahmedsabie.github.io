@@ -259,6 +259,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
           layout: "stereo-top-bottom"
         });
         } catch(e) {
+document.getElementsByName('videoselect')[0].options[0].innerHTML = e.message;
+
 equirectlayer = mediaFactory.createEquirectVideoLayer(video, {
            space: refSpace,
           viewPixelWidth: video.videoWidth,
