@@ -252,7 +252,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         xrRefSpace = refSpace;
 
         proj_layer = xrGLFactory.createProjectionLayer("texture", { space: refSpace, stencil: false });
-session.end();
 
         try {
         equirectlayer = mediaFactory.createEquirectVideoLayer(video, {
@@ -261,7 +260,6 @@ session.end();
         });
         } catch(e) {
 document.getElementsByName('videoselect')[0].options[0].innerHTML = e.message;
-session.end();
 
 equirectlayer = mediaFactory.createEquirectVideoLayer(video, {
            space: refSpace,
