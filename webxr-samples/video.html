@@ -282,7 +282,7 @@ equirectlayer = mediaFactory.createEquirectVideoLayer(video, {
           equirectlayerbackdrop.upperVerticalAngle = Math.PI / 2.0;
           equirectlayerbackdrop.lowerVerticalAngle = -Math.PI / 2.0;
           equirectlayerbackdrop.radius = 0;
-          session.updateRenderState({ layers: [equirectlayerbackdrop, equirectlayer, proj_layer] });
+          session.updateRenderState({ layers: [equirectlayer] });
         });
 
         session.updateRenderState({ layers: [equirectlayer] });
