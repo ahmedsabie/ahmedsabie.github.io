@@ -285,7 +285,7 @@ equirectlayer = mediaFactory.createEquirectVideoLayer(video, {
           session.updateRenderState({ layers: [equirectlayerbackdrop, equirectlayer, proj_layer] });
         });
 
-        session.updateRenderState({ layers: [equirectlayer, proj_layer] });
+        session.updateRenderState({ layers: [equirectlayer] });
         // Inform the session that we're ready to begin drawing.
         session.requestAnimationFrame(onXRFrame);
       });
@@ -333,7 +333,7 @@ equirectlayer = mediaFactory.createEquirectVideoLayer(video, {
           gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, video.videoWidth, video.videoHeight, gl.RGBA, gl.UNSIGNED_BYTE, video);
           
         }*/
-        let views = [];
+        /*let views = [];
         for (let view of pose.views) {
           let viewport = null;
 
@@ -355,7 +355,7 @@ equirectlayer = mediaFactory.createEquirectVideoLayer(video, {
         }
 
         scene.updateInputSources(frame, equirectlayer.space);
-        scene.drawViewArray(views);
+        scene.drawViewArray(views);*/
 
        // gl.deleteFramebuffer(fb);
         scene.endFrame();
