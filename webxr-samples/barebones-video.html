@@ -122,15 +122,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         videoTexture= gl.createTexture();
         xrGLFactory = new XRWebGLBinding(session, gl);
 
-        xrGLFactory.createCylinderLayer("texture", {viewPixelWidth: 480, viewPixelHeight: 270, layout: stereo_layer.checked ? "stereo" : "mono"}).then((layer) => {
+        session.requestReferenceSpace('local').then((refSpace) => {
+          xrRefSpace = refSpace;
+          layer = xrGLFactory.createCylinderLayer("texture", {space: refSpace, viewPixelWidth: 480, viewPixelHeight: 270, layout: stereo_layer.checked ? "stereo" : "mono"});
           session.updateRenderState({ layers: [ layer ] });
 
-          session.requestReferenceSpace('local').then((refSpace) => {
-            xrRefSpace = refSpace;
 
-            // Inform the session that we're ready to begin drawing.
-            session.requestAnimationFrame(onXRFrame);
-          });
+          // Inform the session that we're ready to begin drawing.
+          session.requestAnimationFrame(onXRFrame);
         });
       }
 
