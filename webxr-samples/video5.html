@@ -271,7 +271,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       session.requestReferenceSpace('local').then((refSpace) => {
         xrRefSpace = refSpace;
         let s = document.getElementById("videoselect");
-        console.log("LAYOUT IS: " + layout);
 
         if (layout2 == "mono" || layout2 == "stereo") {
             layer = mediaFactory.createCylinderVideoLayer(video, {
