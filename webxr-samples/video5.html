@@ -164,7 +164,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     let cylinder_layer = false;
     let equirectlayer = null;
     let equirectlayerbackdrop = null;
-    let proj_layer = null;
+    let layer = null;
 
     let videoWidth = -1;
     let videoHeight = -1;
@@ -284,15 +284,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         let s = document.getElementById("videoselect");
         console.log("LAYOUT IS: " + layout);
 
-        if (layout == "mono" || layout == "stereo") {
+        if (layout2 == "mono" || layout2 == "stereo") {
             layer = mediaFactory.createCylinderVideoLayer(video, {
               space: refSpace,
-              layout: layout
+              layout: layout2
             });
         } else {
             layer = mediaFactory.createEquirectVideoLayer(video, {
               space: refSpace,
-              layout: layout
+              layout: layout2
             });
         }
 
