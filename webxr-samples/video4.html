@@ -190,6 +190,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         xrRefSpace = refSpace;
         let s = document.getElementById("videoselect");
         layout = ["stereo-left-right", "stereo-top-bottom", "mono", "stereo"][s.selectedIndex];
+        console.log("LAYOUT IS: " + layout);
 
         if (layout == "mono" || layout == "stereo") {
             layer = mediaFactory.createCylinderVideoLayer(video, {
