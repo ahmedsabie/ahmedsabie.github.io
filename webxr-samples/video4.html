@@ -162,7 +162,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
       xrFramebuffer = gl.createFramebuffer();
       renderer = new Renderer(gl);
-      scene.setRenderer(renderer);
 
       stereoUtil = new VRStereoUtil(gl);
       xrFramebuffer = gl.createFramebuffer();
@@ -215,12 +214,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       // Inform the session that we're ready for the next frame.
       session.requestAnimationFrame(onXRFrame);
 
-      // Get the XRDevice pose relative to the reference space we created
-      // earlier.
-      let pose = frame.getViewerPose(xrRefSpace);
-      if (pose) {
-        scene.endFrame();
-      }
     }
 
     initXR();
