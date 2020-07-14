@@ -118,7 +118,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     function videoSelect() {
       let s = document.getElementById("videoselect");
       video.src = s.options[s.selectedIndex].value;
-      layout = ["stereo-left-right", "stereo-top-bottom", "mono", "stereo"][s.selectedIndex];
     }
 
     videoSelect();
@@ -189,6 +188,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
       session.requestReferenceSpace('local').then((refSpace) => {
         xrRefSpace = refSpace;
+        let s = document.getElementById("videoselect");
+        layout = ["stereo-left-right", "stereo-top-bottom", "mono", "stereo"][s.selectedIndex];
 
         if (layout == "mono" || layout == "stereo") {
             layer = mediaFactory.createCylinderVideoLayer(video, {
