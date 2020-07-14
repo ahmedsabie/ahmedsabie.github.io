@@ -118,14 +118,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     function videoSelect() {
       let s = document.getElementById("videoselect");
       video.src = s.options[s.selectedIndex].value;
+      layout = ["stereo-left-right", "stereo-top-bottom", "mono", "stereo"][s.selectedIndex];
     }
-
-    videoSelect();
-    document.getElementById("videoselect").addEventListener('change', (event) => {
-      xrButton.disabled = true;
-      videoSelect();
-    });
-
 
     let scene = new Scene();
     //scene.enableStats(false);
@@ -154,6 +148,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     // session we'll request one, and if we do have a session we'll end it.
     function onButtonClicked() {
       if (!xrSession) {
+        videoSelect();
         navigator.xr.requestSession('immersive-vr', { requiredFeatures: ['layers']}).then(onSessionStarted);
         video.play();
       } else {
@@ -189,7 +184,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       session.requestReferenceSpace('local').then((refSpace) => {
         xrRefSpace = refSpace;
         let s = document.getElementById("videoselect");
-        layout = ["stereo-left-right", "stereo-top-bottom", "mono", "stereo"][s.selectedIndex];
         console.log("LAYOUT IS: " + layout);
 
         if (layout == "mono" || layout == "stereo") {
@@ -239,12 +233,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       }
     }
 
-    // Start the XR application.
-    video.addEventListener('loadeddata', (event) => {
-      if (video.readyState >= 2) {
-        initXR();
-      }
-    });
+    initXR();
   </script>
 </body>
 
