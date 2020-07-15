@@ -71,65 +71,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     import { QueryArgs } from './js/util/query-args.js';
 
     'use strict';
-    //
-    // Initialize a texture and load an image.
-    // When the image finished loading copy it into the texture.
-    //
-    function loadTexture(gl, url, complete_callback) {
-      const texture = gl.createTexture();
-      loadIntoTexture(gl, texture, url, complete_callback);
-      return texture;
-    }
-    function isPowerOf2(value) {
-      return (value & (value - 1)) == 0;
-    }
-    function loadIntoTexture(gl, texture, url, complete_callback) {
-      gl.bindTexture(gl.TEXTURE_2D, texture);
-
-      // Because images have to be download over the internet
-      // they might take a moment until they are ready.
-      // Until then put a single pixel in the texture so we can
-      // use it immediately. When the image has finished downloading
-      // we'll update the texture with the contents of the image.
-      const level = 0;
-      const internalFormat = gl.RGBA;
-      const width = 1;
-      const height = 1;
-      const border = 0;
-      const srcFormat = gl.RGBA;
-      const srcType = gl.UNSIGNED_BYTE;
-      const pixel = new Uint8Array([0, 0, 255, 255]);  // opaque blue
-      gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
-        width, height, border, srcFormat, srcType,
-        pixel);
-
-      const image = new Image();
-      image.onload = function () {
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
-          srcFormat, srcType, image);
-
-        // WebGL1 has different requirements for power of 2 images
-        // vs non power of 2 images so check if the image is a
-        // power of 2 in both dimensions.
-        if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
-          // Yes, it's a power of 2. Generate mips.
-          gl.generateMipmap(gl.TEXTURE_2D);
-          //?gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-          //?gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR_MIPMAP_LINEAR);
-        } else {
-          // No, it's not a power of 2. Turn of mips and set
-          // wrapping to clamp to edge
-          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-        }
-        complete_callback(image.width, image.height);
-      };
-
-      image.src = url;
-    }
 
     let backdrop = document.getElementById('backdrop');
     let low_fps = document.getElementById('lower_fps');
@@ -169,13 +110,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     video.preload = 'auto';
     video.autoload = true;
 
-    const lastFrameButtonsByGamepad = new WeakMap();
-    function buttonPressedThisFrame(gamepad, lastFrameButtons, index) {
-      return (index < gamepad.buttons.length &&
-        gamepad.buttons[index].pressed &&
-        !lastFrameButtons[index]);
-    }
-
     function videoSelect() {
       let s = document.getElementById("videoselect");
       video.src = s.options[s.selectedIndex].value;
@@ -187,17 +121,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       xrButton.disabled = true;
       videoSelect();
     });
-
-
-    let scene = new Scene();
-    //scene.enableStats(false);
-    //scene.standingStats(true);
-
-    setInterval(function () {
-      if (video.readyState >= video.HAVE_CURRENT_DATA) {
-        updatevideo = true;
-      }
-    }, 1000 / 60);
 
     // Checks to see if WebXR is available and, if so, requests an XRDevice
     // that is connected to the system and tests it to ensure it supports the
@@ -229,12 +152,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       }
     }
 
-    function updateEqrTransform() {
-      const orient = quat.create();
-      quat.fromEuler(orient, eqr_orient.pitch, eqr_orient.yaw, eqr_orient.roll);
-      equirectlayer.transform = new XRRigidTransform(eqr_pos, { x: orient[0], y: orient[1], z: orient[2], w: orient[3] });
-    }
-
     function onSessionStarted(session) {
       xrSession = session;
       xrButton.textContent = 'Exit VR';
@@ -242,19 +159,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       // Listen for the sessions 'end' event so we can respond if the user
       // or UA ends the session for any reason.
       session.addEventListener('end', onSessionEnded);
-
-      // Create a WebGL context to render with, initialized to be compatible
-      // with the XRDisplay we're presenting to.
-      let canvas = document.createElement('canvas');
-      gl = canvas.getContext('webgl2', { xrCompatible: true, webgl2: true });
-
-      xrFramebuffer = gl.createFramebuffer();
-      renderer = new Renderer(gl);
-
-      stereoUtil = new VRStereoUtil(gl);
-      xrFramebuffer = gl.createFramebuffer();
-      xrReadFramebuffer = gl.createFramebuffer();
-      //?      videoTexture = gl.createTexture();
 
       mediaFactory = new XRMediaBinding(session);
 
