@@ -40,7 +40,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <details open>
       <summary>Barebones Video</summary>
       <p>
-        This4 sample shows a stereo video on an equirect layer with a cubemap background.
+        This5 sample shows a stereo video on an equirect layer with a cubemap background.
         <a class="back" href="./">Back</a>
       </p>
       <label>Choose a video</label>
@@ -261,7 +261,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       session.requestReferenceSpace('local').then((refSpace) => {
         xrRefSpace = refSpace;
         let s = document.getElementById("videoselect");
-        let ind = s.options[s.selectedIndex].value;
+        let ind = s.selectedIndex;
 
         if (ind > 2) {
             layer = mediaFactory.createQuadVideoLayer(video, {
