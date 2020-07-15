@@ -40,7 +40,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <details open>
       <summary>Barebones Video</summary>
       <p>
-        This sample shows a stereo video on an equirect layer with a cubemap background.
+        this sample shows a stereo video on an equirect layer with a cubemap background.
         <a class="back" href="./">Back</a>
       </p>
       <label>Choose a video</label>
@@ -173,7 +173,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
               layout: layout2
             });
               let pos = {x: 1.5, y: 1.0, z: -2.0};
-              orient = quat.create();//{x:0,y:0,z:0,w:1};
+              let orient = quat.create();//{x:0,y:0,z:0,w:1};
               quat.fromEuler(orient, 0, 0, 30);
               layer.transform = new XRRigidTransform(pos, {x: orient[0], y: orient[1], z: orient[2], w: orient[3]});
 
