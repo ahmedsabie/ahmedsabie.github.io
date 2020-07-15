@@ -45,10 +45,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       </p>
       <label>Choose a video</label>
       <select id="videoselect">
-        <option value="https://d25a56pc18k0co.cloudfront.net/sloths_binaural_3840_180_3D-injected.mp4">Equirect(left right stereo)</option>
-        <option value="https://d25a56pc18k0co.cloudfront.net/sloths_binaural_3840x2160_360_3D_v2_injected.mp4">Equirect (top bottom stereo)</option>
+        <option value="media/video/Henry_video_h265_3840x3840_60fps.mp4">Equirect (top bottom stereo)</option>
         <option value="media/video/bbb-sunflower-540p2-1min.webm">Cylinder (mono)</option>
         <option value="media/video/bbb-sunflower-540p2-1min.webm">Cylinder (stereo)</option>
+        <option value="media/video/bbb-sunflower-540p2-1min.webm">Quad (mono)</option>
+        <option value="media/video/bbb-sunflower-540p2-1min.webm">Quad (stereo)</option>
       </select>
       <button id="xr-button" disabled>XR not found</button>
     </details>
@@ -178,18 +179,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     function videoSelect() {
       let s = document.getElementById("videoselect");
       video.src = s.options[s.selectedIndex].value;
-      layout2 = ["stereo-left-right", "stereo-top-bottom", "mono", "stereo"][s.selectedIndex];
-      // HACK
-      switch (s.selectedIndex) {
-        case 0: videoWidth = 3840; videoHeight = 1920; break;
-        case 1: videoWidth = 3840; videoHeight = 2160; break;
-        case 2: videoWidth = 3840; videoHeight = 2160; break;
-        case 3: videoWidth = 2160; videoHeight = 2160; break;
-        case 4: videoWidth = 2880; videoHeight = 2880; break;
-        case 5: videoWidth = 1920; videoHeight = 1920; break;
-        case 6: videoWidth = 3840; videoHeight = 3840; break;
-        case 7: videoWidth = 3840; videoHeight = 3840; break;
-      }
+      layout2 = ["stereo-top-bottom", "mono", "stereo", "mono", "stereo"][s.selectedIndex];
     }
 
     videoSelect();
@@ -271,8 +261,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       session.requestReferenceSpace('local').then((refSpace) => {
         xrRefSpace = refSpace;
         let s = document.getElementById("videoselect");
+        let ind = s.options[s.selectedIndex].value;
 
-        if (layout2 == "mono" || layout2 == "stereo") {
+        if (ind > 2) {
+            layer = mediaFactory.createQuadVideoLayer(video, {
+              space: refSpace,
+              layout: layout2
+            });
+        } else if (ind > 0) {
             layer = mediaFactory.createCylinderVideoLayer(video, {
               space: refSpace,
               layout: layout2
