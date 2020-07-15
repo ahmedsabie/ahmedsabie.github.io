@@ -34,7 +34,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
   <body>
     <header>
       <details open>
-        <summary>Barebones Video</summary>
+        <summary>3arebones Video</summary>
         <p>
           This sample show a mono or stereo video on a cylinder layer
           <a class="back" href="./">Back</a>
@@ -127,7 +127,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         session.requestReferenceSpace('local').then((refSpace) => {
         xrRefSpace = refSpace;
 
-        let layer = mediaFactory.createCylinderVideoLayer(video, {space: refSpace, viewPixelWidth: 480, viewPixelHeight: 270, stereo: (stereo_layer.checked ? "stereo" : "mono")});
+        let layer = mediaFactory.createQuadVideoLayer(video, {space: refSpace, viewPixelWidth: 480, viewPixelHeight: 270, stereo: (stereo_layer.checked ? "stereo" : "mono")});
         session.updateRenderState({ layers: [ layer ] });
 
           // Inform the session that we're ready to begin drawing.
