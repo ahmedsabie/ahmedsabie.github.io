@@ -45,11 +45,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       </p>
       <label>Choose a video</label>
       <select id="videoselect">
-        <option value="media/video/Henry_video_h265_3840x3840_60fps.mp4">Equirect (top bottom stereo)</option>
-        <option value="media/video/bbb-sunflower-540p2-1min.webm">Cylinder (mono)</option>
-        <option value="media/video/bbb-sunflower-540p2-1min.webm">Cylinder (stereo)</option>
-        <option value="media/video/bbb-sunflower-540p2-1min.webm">Quad (mono)</option>
-        <option value="media/video/bbb-sunflower-540p2-1min.webm">Quad (stereo)</option>
+        <option value="media/video/Henry_video_h265_3840x3840_60fps.mp4">Equirect (stereo top bottom)</option>
+        <option value="media/video/vid_30fps.mp4">Quad (stereo left right)</option>
+        <option value="media/video/sea.mp4">Cylinder (mono)</option>
       </select>
       <button id="xr-button" disabled>XR not found</button>
     </details>
@@ -113,7 +111,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     function videoSelect() {
       let s = document.getElementById("videoselect");
       video.src = s.options[s.selectedIndex].value;
-      layout2 = ["stereo-top-bottom", "mono", "stereo", "mono", "stereo"][s.selectedIndex];
+      layout2 = ["stereo-top-bottom", "stereo-left-right", "mono"][s.selectedIndex];
     }
 
     videoSelect();
@@ -167,7 +165,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         let s = document.getElementById("videoselect");
         let ind = s.selectedIndex;
 
-        if (ind > 2) {
+        if (ind == 1) {
             layer = mediaFactory.createQuadVideoLayer(video, {
               space: refSpace,
               layout: layout2
@@ -177,7 +175,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
               //quat.fromEuler(orient, 0, 0, 30);
               layer.transform = new XRRigidTransform(pos, {x: orient[0], y: orient[1], z: orient[2], w: orient[3]});
 
-        } else if (ind > 0) {
+        } else if (ind == 2) {
             layer = mediaFactory.createCylinderVideoLayer(video, {
               space: refSpace,
               layout: layout2
