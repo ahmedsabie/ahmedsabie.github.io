@@ -110,6 +110,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     video.crossOrigin = "anonymous";
     video.preload = 'auto';
     video.autoload = true;
+  let canvas = document.createElement('canvas');
+  let canvasContext = canvas.getContext('2d');
+
 
   let frameInfoCallback = (_, metadata) => {
     console.log(
@@ -117,6 +120,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       `(${metadata.width}x${metadata.height}) at ` +
       `${metadata.presentationTime}ms for display at ` +
       ``);
+    canvasContext.drawImage(video, 0, 0, metadata.width, metadata.height);
+
 
     video.requestVideoFrameCallback(frameInfoCallback);
   };
