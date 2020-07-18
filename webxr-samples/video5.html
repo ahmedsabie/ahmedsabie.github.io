@@ -40,7 +40,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <details open>
       <summary>Video Layers</summary>
       <p>
-        This sample tests the different video layers and layouts
+        This sample tests the differentss video layers and layouts
         <a class="back" href="./">Back</a>
       </p>
       <label>Choose a video</label>
@@ -114,19 +114,19 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     function videoSelect() {
       let s = document.getElementById("videoselect");
 console.log("LOLS");
+      video.src = s.options[s.selectedIndex].value;
   let frameInfoCallback = (_, metadata) => {
     console.log(
       `Presented frame ${metadata.presentationTimestamp}s ` +
       `(${metadata.width}x${metadata.height}) at ` +
       `${metadata.presentationTime}ms for display at ` +
-      `${expectedPresentationTime}ms`);
+      ``);
 
     video.requestVideoFrameCallback(frameInfoCallback);
   };
 
   video.requestVideoFrameCallback(frameInfoCallback);
 
-      video.src = s.options[s.selectedIndex].value;
       layout2 = ["stereo-top-bottom", "stereo-left-right", "mono", "stereo-left-right", "mono", "mono"][s.selectedIndex];
     }
 
