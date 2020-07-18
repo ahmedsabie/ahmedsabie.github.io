@@ -114,6 +114,18 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     function videoSelect() {
       let s = document.getElementById("videoselect");
       video.src = s.options[s.selectedIndex].value;
+  let frameInfoCallback = (_, metadata) => {
+    console.log(
+      `Presented frame ${metadata.presentationTimestamp}s ` +
+      `(${metadata.width}x${metadata.height}) at ` +
+      `${metadata.presentationTime}ms for display at ` +
+      `${expectedPresentationTime}ms`);
+
+    video.requestVideoFrameCallback(frameInfoCallback);
+  };
+
+  video.requestVideoFrameCallback(frameInfoCallback);
+
       layout2 = ["stereo-top-bottom", "stereo-left-right", "mono", "stereo-left-right", "mono", "mono"][s.selectedIndex];
     }
 
