@@ -118,7 +118,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         console.log(video.src);
         for (let i = 0; i < s.length; i++) {
           if (video.src.includes(s.options[i].value)) {
+            video.pause();
             video.src = s.options[(i + 1) % s.length].value;
+            vide.load();
             console.log("VIDEO CHANGED");
             //video.play();
             break;
