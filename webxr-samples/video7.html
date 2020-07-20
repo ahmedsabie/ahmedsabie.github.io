@@ -40,7 +40,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <details open>
       <summary>WebXR Video Frames</summary>
       <p>
-        Thi sample tests video frames inside WebXR 
+        This sample tests video frame callback inside WebXR 
         <a class="back" href="./">Back</a>
       </p>
       <button id="xr-button" disabled>XR not found</button>
@@ -58,6 +58,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     let frames = 0;
     let video = document.createElement('video');
 
+    video.muted = true;
     video.loop = true;
     video.crossOrigin = "anonymous";
     video.preload = 'auto';
@@ -66,14 +67,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     let frameInfoCallback = (_, metadata) => {
       frames += 1;
-      if (frames % 60 == 0) {
-        console.log("Callback executed");
-      }
+      console.log("Callback executed: " + frames);
       video.requestVideoFrameCallback(frameInfoCallback);
     };
 
-    video.play();
     video.requestVideoFrameCallback(frameInfoCallback);
+    video.play();
 
     function initXR() {
       // Is WebXR available on this UA?
@@ -109,6 +108,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       // or UA ends the session for any reason.
       session.addEventListener('end', onSessionEnded);
 
+      let canvas = document.createElement('canvas');
+      let gl = canvas.getContext('webgl', { xrCompatible: true });
+
+      // Use the new WebGL context to create a XRWebGLLayer and set it as the
+      // sessions baseLayer. This allows any content rendered to the layer to
+      // be displayed on the XRDevice.
+      session.updateRenderState({ baseLayer: new XRWebGLLayer(session, gl) });
+
       // Inform the session that we're ready to begin drawing.
       session.requestAnimationFrame(onXRFrame);
     }
@@ -134,6 +141,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       if (video.readyState >= 2) {
         initXR();
       }
+    });
+
+    video.addEventListener('timeupdate', (event) => {
+      console.log("Timeupdate executed");
     });
   </script>
 </body>
