@@ -67,14 +67,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
     let frameInfoCallback = (_, metadata) => {
       frames += 1;
-      if (frames % 60 == 0) {
-        console.log("Callback executed");
-      }
+      console.log("Callback executed: " + frames);
       video.requestVideoFrameCallback(frameInfoCallback);
     };
 
-    video.play();
     video.requestVideoFrameCallback(frameInfoCallback);
+    video.play();
 
     function initXR() {
       // Is WebXR available on this UA?
