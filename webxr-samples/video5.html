@@ -37,7 +37,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <details open>
       <summary>Video Layers</summary>
       <p>
-        This sample tests the different video layers + layouts
+        This sample tests the different video layers / layouts
         <a class="back" href="./">Back</a>
       </p>
       <label>Choose a video</label>
@@ -113,6 +113,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     setInterval(function () {
       if (switch_video.checked) {
         let s = document.getElementById("videoselect");
+        console.log("HERE");
+        console.log(s.length);
+        console.log(video.src);
         for (let i = 0; i < s.length; i++) {
           if (video.src == s.options[i].value) {
             video.src = s.options[(i + 1) % s.length].value;
