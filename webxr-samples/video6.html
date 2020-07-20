@@ -40,7 +40,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <details open>
       <summary>WebXR Video Frames</summary>
       <p>
-        This sample tests video frames inside WebXR 
+        This sample tests video frame callback inside WebXR 
         <a class="back" href="./">Back</a>
       </p>
       <button id="xr-button" disabled>XR not found</button>
@@ -107,6 +107,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       // Listen for the sessions 'end' event so we can respond if the user
       // or UA ends the session for any reason.
       session.addEventListener('end', onSessionEnded);
+
+      let canvas = document.createElement('canvas');
+      let gl = canvas.getContext('webgl', { xrCompatible: true });
+
+      // Use the new WebGL context to create a XRWebGLLayer and set it as the
+      // sessions baseLayer. This allows any content rendered to the layer to
+      // be displayed on the XRDevice.
+      session.updateRenderState({ baseLayer: new XRWebGLLayer(session, gl) });
 
       // Inform the session that we're ready to begin drawing.
       session.requestAnimationFrame(onXRFrame);
