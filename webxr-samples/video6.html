@@ -40,7 +40,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     <details open>
       <summary>WebXR Video Frames</summary>
       <p>
-        Thi sample tests video frames inside WebXR 
+        This sample tests video frames inside WebXR 
         <a class="back" href="./">Back</a>
       </p>
       <button id="xr-button" disabled>XR not found</button>
@@ -58,6 +58,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     let frames = 0;
     let video = document.createElement('video');
 
+    video.muted = true;
     video.loop = true;
     video.crossOrigin = "anonymous";
     video.preload = 'auto';
@@ -73,6 +74,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     };
 
     video.play();
+    video.muted = false;
     video.requestVideoFrameCallback(frameInfoCallback);
 
     function initXR() {
