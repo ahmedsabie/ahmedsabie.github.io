@@ -50,6 +50,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
         <option value="media/video/60fps.mp4">60fps (mono)</option>
       </select>
       <button id="xr-button" disabled>XR not found</button>
+      <input type="checkbox" id="switch_video" value="Bike">switch videos automatically</input>
     </details>
   </header>
   <main style='text-align: center;'>
@@ -74,6 +75,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     let low_fps = document.getElementById('lower_fps');
     // XR globals.
     let xrButton = document.getElementById('xr-button');
+    let switch_video = document.getElementById("switch_video");
     let xrSession = null;
     let xrRefSpace = null;
     let mediaFactory = null;
@@ -107,6 +109,19 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     video.crossOrigin = "anonymous";
     video.preload = 'auto';
     video.autoload = true;
+
+    setInterval(function () {
+      if (switch_video.checked) {
+        let s = document.getElementById("videoselect");
+        for (let i = 0; i < s.length; i++) {
+          if (video.src == s.options[i].value) {
+            video.src = s.options[(i + 1) % s.length].value;
+            break;
+          }
+        }
+      }
+    }, 10000);
+
 
     function videoSelect() {
       let s = document.getElementById("videoselect");
@@ -237,10 +252,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
       session.requestAnimationFrame(onXRFrame);
 
     }
+    let once = false;
 
     // Start the XR application.
     video.addEventListener('loadeddata', (event) => {
-      if (video.readyState >= 2) {
+      if (video.readyState >= 2 && !once) {
+        once = true;
         initXR();
       }
     });
